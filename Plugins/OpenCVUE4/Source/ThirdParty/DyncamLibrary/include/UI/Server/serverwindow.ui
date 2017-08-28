@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ServerWindow</class>
+ <widget class="QMainWindow" name="ServerWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>568</width>
+    <height>973</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dyncam Server</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTOpenCVWidget" name="openCVviewer1" native="true"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QTOpenCVWidget" name="openCVviewer2" native="true"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QTOpenCVWidget" name="openCVviewer3" native="true"/>
+    </item>
+	<item row="2" column="0">
+     <widget class="PointsWidget" name="openCVviewer3" native="true"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>568</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QTOpenCVWidget</class>
+   <extends>QWidget</extends>
+   <header>qtopencvwidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

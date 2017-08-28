@@ -51,6 +51,8 @@
 /I C:\Projects\Bremen\MultiUserVR\dyncam_unreal_test\Plugins\OpenCVUE4\Source\ThirdParty\OpenCVUE4Library
 /I C:\Projects\Bremen\MultiUserVR\dyncam_unreal_test\Plugins\OpenCVUE4\Source\ThirdParty\OpenCV\include
 /I C:\Projects\Bremen\MultiUserVR\dyncam_unreal_test\Plugins\OpenCVUE4\Source\ThirdParty\OpenCV
+/I C:\Projects\Bremen\MultiUserVR\dyncam_unreal_test\Plugins\OpenCVUE4\Source\ThirdParty\DyncamLibrary\include
+/I C:\Projects\Bremen\MultiUserVR\dyncam_unreal_test\Plugins\OpenCVUE4\Source\ThirdParty\DyncamLibrary
 /I "C:\Program Files\Epic Games\UE_4.17\Engine\Source\Runtime\RHI\Public"
 /I "C:\Program Files\Epic Games\UE_4.17\Engine\Source\Runtime\RHI"
 /I "C:\Program Files\Epic Games\UE_4.17\Engine\Source\Runtime\RenderCore\Public"

@@ -29,7 +29,7 @@ public class OpenCVUE4 : ModuleRules
 			{
 				"Core",
 				"OpenCVUE4Library",
-                "OpenCV",
+                "OpenCV","DyncamLibrary",
                  "RHI", "RenderCore", "ShaderCore",
 
                 "Projects"

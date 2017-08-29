@@ -29,9 +29,8 @@ public class OpenCVUE4 : ModuleRules
 			{
 				"Core",
 				"OpenCVUE4Library",
-                "OpenCV","DyncamLibrary",
-                 "RHI", "RenderCore", "ShaderCore",
-
+                "OpenCV","Boost",
+                "RHI", "RenderCore", "ShaderCore","Engine","CoreUObject",
                 "Projects"
 				// ... add other public dependencies that you statically link with here ...
 			}

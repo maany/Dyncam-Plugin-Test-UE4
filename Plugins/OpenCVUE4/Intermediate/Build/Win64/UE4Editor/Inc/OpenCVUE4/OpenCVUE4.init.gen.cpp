@@ -20,8 +20,8 @@ void EmptyLinkFunctionForGeneratedCodeOpenCVUE4_init() {}
 			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), nullptr, FName(TEXT("/Script/OpenCVUE4")), false, false));
 			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000080);
 			FGuid Guid;
-			Guid.A = 0xEC2E89FD;
-			Guid.B = 0x1760AE52;
+			Guid.A = 0x770ED7CE;
+			Guid.B = 0xA217AE5C;
 			Guid.C = 0x00000000;
 			Guid.D = 0x00000000;
 			ReturnPackage->SetGuid(Guid);

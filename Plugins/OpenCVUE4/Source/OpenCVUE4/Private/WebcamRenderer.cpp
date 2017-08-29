@@ -37,6 +37,7 @@ void AWebcamRenderer::BeginPlay()
 		VideoSize = FVector2D(frame.cols, frame.rows);
 		size = cv::Size(ResizeDeminsions.X, ResizeDeminsions.Y);
 		VideoTexture = UTexture2D::CreateTransient(VideoSize.X, VideoSize.Y);
+		#define UpdateResource UpdateResource
 		VideoTexture->UpdateResource();
 		VideoUpdateTextureRegion = new FUpdateTextureRegion2D(0, 0, 0, 0, VideoSize.X, VideoSize.Y);
 

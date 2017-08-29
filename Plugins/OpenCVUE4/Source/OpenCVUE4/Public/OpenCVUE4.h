@@ -3,7 +3,7 @@
 #pragma once
 
 #include "ModuleManager.h"
-
+#include "Engine.h"
 class FOpenCVUE4Module : public IModuleInterface
 {
 public:

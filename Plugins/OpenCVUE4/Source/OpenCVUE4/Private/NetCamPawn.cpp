@@ -39,4 +39,7 @@ void ANetCamPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+void ANetCamPawn::Connect(char const * IPAddress, int port, std::vector<BaseCam::StreamCapabilities> requestStreams) {
+	
+}
 

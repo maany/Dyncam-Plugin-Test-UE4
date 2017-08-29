@@ -41,4 +41,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	//
+	void Connect(char const * IPAddress, int port, std::vector<BaseCam::StreamCapabilities> requestStreams);
 };

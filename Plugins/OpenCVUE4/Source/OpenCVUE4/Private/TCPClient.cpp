@@ -62,7 +62,7 @@ void TCPClient::ReceiveAsStream() {
     boost::asio::streambuf response;
     {
         //std::lock_guard<std::mutex> lock(m_ClientTCPEventMutex);
-        boost::asio::read(m_Socket, response, boost::asio::transfer_exactly(16));
+        boost::asio::read(m_Socket, response, boost::asio::transfer_exactly(15));
     }
 
     std::istream response_stream(&response);

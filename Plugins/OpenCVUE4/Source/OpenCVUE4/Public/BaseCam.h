@@ -1,5 +1,7 @@
 #pragma once
-//#include "opencv2\"
+#include "opencv2/opencv.hpp"
+#include "Observable.h"
+using namespace dyncam_event;
 class BaseCam {
 public:
 	/// represents the current state of the camera driver
@@ -13,7 +15,10 @@ public:
 	enum class StreamCapabilities : unsigned int {
 		COLOR, IR, DEPTH
 	};
-	
+	Observable DepthEventsSource;
+	Observable ColorEventsSource;
+	Observable IrEventsSource;
+	Observable PointCloudEventsSource;
 	// current State of the camera
 	//State state = State::DEVICE_UNINITIALIZED;
 

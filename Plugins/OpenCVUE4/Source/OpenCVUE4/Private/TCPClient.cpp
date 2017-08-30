@@ -87,7 +87,7 @@ void TCPClient::ReceiveAsStream() {
         std::cout << "[TCPClient] : Transmission Delay : " << endTime - startTime << std::endl;
         if (typeVal == static_cast<int>(BaseCam::StreamCapabilities::DEPTH)) {
             std::cout << "[Stream] : Received Depth Packet" << std::endl;
-            //m_NetCam->DepthEventsSource.Emit(mat);
+            m_NetCam->DepthEventsSource.Emit(mat);
         } else if (typeVal == static_cast<int>(BaseCam::StreamCapabilities::COLOR)) {
             std::cout << "[Stream] : Received Color Packet" << std::endl;
             //m_NetCam->ColorEventsSource.Emit(mat);

@@ -90,10 +90,10 @@ void TCPClient::ReceiveAsStream() {
             m_NetCam->DepthEventsSource.Emit(mat);
         } else if (typeVal == static_cast<int>(BaseCam::StreamCapabilities::COLOR)) {
             std::cout << "[Stream] : Received Color Packet" << std::endl;
-            //m_NetCam->ColorEventsSource.Emit(mat);
+            m_NetCam->ColorEventsSource.Emit(mat);
         } else if (typeVal == static_cast<int>(BaseCam::StreamCapabilities::IR)) {
             std::cout << "[Stream] : Received Color Packet" << std::endl;
-            //m_NetCam->IrEventsSource.Emit(mat);
+            m_NetCam->IrEventsSource.Emit(mat);
         }
     }
 }

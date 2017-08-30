@@ -10,17 +10,19 @@
 #include "opencv2/videoio.hpp"
 #include "GameFramework/Actor.h"
 #include "Runtime/Engine/Classes/Engine/Texture2D.h"
+#include "Observer.h"
+#include "TCPClient.h"
 #include "WebcamRenderer.generated.h"
 
 UCLASS()
-class OPENCVUE4_API AWebcamRenderer : public AActor
+class OPENCVUE4_API AWebcamRenderer : public AActor, public BaseCam, public Observer
 {
 	GENERATED_BODY()
-	
+	boost::asio::io_service io_service;
 public:
 	// Sets default values for this actor's properties
 	AWebcamRenderer();
-
+	TCPClient::pointer client;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -57,7 +59,7 @@ public:
 	cv::Size size;
 
 	// OpenCV prototypes
-	void UpdateFrame();
+	void UpdateFrame(cv::Mat mat);
 	void DoProcessing();
 	void UpdateTexture();
 

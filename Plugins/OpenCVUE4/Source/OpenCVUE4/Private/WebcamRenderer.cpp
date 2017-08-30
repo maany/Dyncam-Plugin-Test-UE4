@@ -8,16 +8,17 @@ AWebcamRenderer::AWebcamRenderer()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	client = TCPClient::Create(io_service, this);
 
 	// Initialize OpenCV and webcam properties
 	CameraID = 0;
-	RefreshRate = 15;
+	//RefreshRate = 15;
 	isStreamOpen = false;
 	VideoSize = FVector2D(0, 0);
 	ShouldResize = false;
 	ResizeDeminsions = FVector2D(320, 240);
 	RefreshTimer = 0.0f;
-	stream = cv::VideoCapture();
+	//stream = cv::VideoCapture();
 	frame = cv::Mat();
 
 }
@@ -26,29 +27,54 @@ AWebcamRenderer::AWebcamRenderer()
 void AWebcamRenderer::BeginPlay()
 {
 	Super::BeginPlay();
+	Observe(&this->ColorEventsSource, [&](cv::Mat mat) {
+		if (!isStreamOpen) {
+			VideoSize = FVector2D(mat.cols, mat.rows);
+			size = cv::Size(ResizeDeminsions.X, ResizeDeminsions.Y);
+			VideoTexture = UTexture2D::CreateTransient(VideoSize.X, VideoSize.Y);
+			#define UpdateResource UpdateResource
+			VideoTexture->UpdateResource();
+			VideoUpdateTextureRegion = new FUpdateTextureRegion2D(0, 0, 0, 0, VideoSize.X, VideoSize.Y);
 
-	// Open the stream
-	stream.open(CameraID);
-	if (stream.isOpened())
-	{
-		// Initialize stream
-		isStreamOpen = true;
-		UpdateFrame();
-		VideoSize = FVector2D(frame.cols, frame.rows);
-		size = cv::Size(ResizeDeminsions.X, ResizeDeminsions.Y);
-		VideoTexture = UTexture2D::CreateTransient(VideoSize.X, VideoSize.Y);
-		#define UpdateResource UpdateResource
-		VideoTexture->UpdateResource();
-		VideoUpdateTextureRegion = new FUpdateTextureRegion2D(0, 0, 0, 0, VideoSize.X, VideoSize.Y);
-
-		// Initialize data array
-		Data.Init(FColor(0, 0, 0, 255), VideoSize.X * VideoSize.Y);
-
-		// Do first frame
+			// Initialize data array
+			Data.Init(FColor(0, 0, 0, 255), VideoSize.X * VideoSize.Y);
+			isStreamOpen = true;
+		}
+		UE_LOG(LogTemp, Warning, TEXT("depth event works!"));
+		UpdateFrame(mat);
 		DoProcessing();
 		UpdateTexture();
 		OnNextVideoFrame();
-	}
+	});
+	boost::asio::ip::tcp::endpoint serverEndpoint(boost::asio::ip::address::from_string(std::string("127.0.0.1")), 31401);
+	client->GetSocket().connect(serverEndpoint);
+	client->ReceiveHandshakeRequest();
+	std::vector<BaseCam::StreamCapabilities> requestStreams;
+	requestStreams.push_back(BaseCam::StreamCapabilities::DEPTH);
+	requestStreams.push_back(BaseCam::StreamCapabilities::COLOR);
+	client->SendHandshakeAck(requestStreams);
+	// Open the stream
+	//stream.open(CameraID);
+	//if (stream.isOpened())
+	//{
+		// Initialize stream
+		//isStreamOpen = false;
+		//UpdateFrame();
+		//VideoSize = FVector2D(frame.cols, frame.rows);
+		//size = cv::Size(ResizeDeminsions.X, ResizeDeminsions.Y);
+		//VideoTexture = UTexture2D::CreateTransient(VideoSize.X, VideoSize.Y);
+		//#define UpdateResource UpdateResource
+		//VideoTexture->UpdateResource();
+		//VideoUpdateTextureRegion = new FUpdateTextureRegion2D(0, 0, 0, 0, VideoSize.X, VideoSize.Y);
+
+		// Initialize data array
+		//Data.Init(FColor(0, 0, 0, 255), VideoSize.X * VideoSize.Y);
+
+		// Do first frame
+		//DoProcessing();
+		//UpdateTexture();
+		//OnNextVideoFrame();
+	//}
 
 }
 
@@ -56,31 +82,32 @@ void AWebcamRenderer::BeginPlay()
 void AWebcamRenderer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	RefreshTimer += DeltaTime;
-	if (isStreamOpen && RefreshTimer >= 1.0f / RefreshRate)
-	{
-		RefreshTimer -= 1.0f / RefreshRate;
-		UpdateFrame();
-		DoProcessing();
-		UpdateTexture();
-		OnNextVideoFrame();
-	}
+	client->Execute();
+	//RefreshTimer += DeltaTime;
+	//if (isStreamOpen && RefreshTimer >= 1.0f / RefreshRate)
+	//{
+	//	RefreshTimer -= 1.0f / RefreshRate;
+	//	UpdateFrame();
+	//	DoProcessing();
+	//	UpdateTexture();
+	//	OnNextVideoFrame();
+	//}
 }
 
-void AWebcamRenderer::UpdateFrame()
+void AWebcamRenderer::UpdateFrame(cv::Mat mat)
 {
-	if (stream.isOpened())
-	{
-		stream.read(frame);
+	frame = mat;
+//	if (stream.isOpened())
+//	{
+		//stream.read(frame);
 		if (ShouldResize)
 		{
-			cv::resize(frame, frame, size);
+			//cv::resize(frame, frame, size);
 		}
-	}
-	else {
-		isStreamOpen = false;
-	}
+//	}
+//	else {
+//		isStreamOpen = false;
+//	}
 }
 
 void AWebcamRenderer::DoProcessing()
@@ -98,9 +125,10 @@ void AWebcamRenderer::UpdateTexture()
 			for (int x = 0; x < VideoSize.X; x++)
 			{
 				int i = x + (y * VideoSize.X);
-				Data[i].B = frame.data[i * 3 + 0];
-				Data[i].G = frame.data[i * 3 + 1];
-				Data[i].R = frame.data[i * 3 + 2];
+				Data[i].R = frame.data[i * 4 + 0];
+				Data[i].G = frame.data[i * 4 + 1];
+				Data[i].B = frame.data[i * 4 + 2];
+				Data[i].A = frame.data[i * 4 + 3];
 			}
 		}
 
